@@ -1,9 +1,11 @@
 package org.xpdojo.bank;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.xpdojo.bank.Account.emptyAccount;
 
 public class AccountTest {
@@ -33,7 +35,11 @@ public class AccountTest {
     public void withdrawSingleAmount() {
         Account account=emptyAccount();
         account.deposit(50);
-        account.withdraw(10);
+        try {
+            account.withdraw(10);
+        } catch (NoFundException e) {
+            e.printStackTrace();
+        }
         assertThat(account.balance()).isEqualTo(40);
     }
 
@@ -41,8 +47,18 @@ public class AccountTest {
     public void withdrawMultipleAmount() {
         Account account=emptyAccount();
         account.deposit(50);
-        account.withdraw(10);
-        account.withdraw(20);
+        try {
+            account.withdraw(10);
+            account.withdraw(20);
+        } catch (NoFundException e) {
+            e.printStackTrace();
+        }
         assertThat(account.balance()).isEqualTo(20);
+    }
+
+    @Test
+    public void withdrawWithoutFunds() {
+        Account account=emptyAccount();
+        Assertions.assertThatCode(() -> account.withdraw(10)).isInstanceOf(NoFundException.class);
     }
 }
