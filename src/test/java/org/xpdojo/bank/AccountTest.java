@@ -29,4 +29,20 @@ public class AccountTest {
         assertThat(account.balance()).isEqualTo(50);
     }
 
+    @Test
+    public void withdrawSingleAmount() {
+        Account account=emptyAccount();
+        account.deposit(50);
+        account.withdraw(10);
+        assertThat(account.balance()).isEqualTo(40);
+    }
+
+    @Test
+    public void withdrawMultipleAmount() {
+        Account account=emptyAccount();
+        account.deposit(50);
+        account.withdraw(10);
+        account.withdraw(20);
+        assertThat(account.balance()).isEqualTo(20);
+    }
 }
