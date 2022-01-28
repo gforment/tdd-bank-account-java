@@ -8,8 +8,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AccountTest {
 
     @Test
-    public void aaa() {
-
+    public void createAccount() {
+        Account account=new Account();
+        assertThat(account.balance()).isEqualTo(0);
     }
 
 }
